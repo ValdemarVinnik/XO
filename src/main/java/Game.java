@@ -7,14 +7,25 @@ public class Game {
     private Board board;
 
 
-    public void run() {
+    public void run() throws InterruptedException {
         board = new Board();
         board.printField();
 
-        while (aLive) {
+        while (true) {
             drawX();
-            board.printField();
+            //board.printField();
 
+            if (board.isFull()) {
+                System.out.println("You win!!!");
+                break;
+            }
+            //Thread.sleep(1000);
+            board.analysisO();
+            board.printField();
+            if (board.isFull()) {
+                System.out.println("You wOn!!!");
+                break;
+            }
         }
     }
 
@@ -61,7 +72,7 @@ public class Game {
         return (resulte >= 1 && resulte <= 9) ? resulte : inquiry();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new Game().run();
     }
 }
