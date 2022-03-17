@@ -13,16 +13,17 @@ public class Game {
 
         while (true) {
             drawX();
-            //board.printField();
+            board.printField();
 
-            if (board.isFull()) {
+            if (board.somebodyWin()) {
                 System.out.println("You win!!!");
                 break;
             }
             //Thread.sleep(1000);
+
             board.analysisO();
             board.printField();
-            if (board.isFull()) {
+            if (board.somebodyWin()) {
                 System.out.println("You wOn!!!");
                 break;
             }
