@@ -19,12 +19,20 @@ public class Game {
                 System.out.println("You win!!!");
                 break;
             }
-            //Thread.sleep(1000);
+            if (board.isFull()) {
+                System.out.println("Nobody wins...");
+                break;
+            }
+            Thread.sleep(1000);
 
             board.analysisO();
             board.printField();
             if (board.somebodyWin()) {
                 System.out.println("You wOn!!!");
+                break;
+            }
+            if (board.isFull()) {
+                System.out.println("Nobody wins...");
                 break;
             }
         }
@@ -37,31 +45,49 @@ public class Game {
     private void drawX() {
         switch (inquiry()) {
             case 1:
-                board.setX(0, 0);
+                if (!board.setX(0, 0)) {
+                    drawX();
+                }
                 break;
             case 2:
-                board.setX(1, 0);
+                if (!board.setX(1, 0)) {
+                    drawX();
+                }
                 break;
             case 3:
-                board.setX(2, 0);
+                if (!board.setX(2, 0)) {
+                    drawX();
+                }
                 break;
             case 4:
-                board.setX(0, 1);
+                if (!board.setX(0, 1)) {
+                    drawX();
+                }
                 break;
             case 5:
-                board.setX(1, 1);
+                if (!board.setX(1, 1)) {
+                    drawX();
+                }
                 break;
             case 6:
-                board.setX(2, 1);
+                if (!board.setX(2, 1)) {
+                    drawX();
+                }
                 break;
             case 7:
-                board.setX(0, 2);
+                if (!board.setX(0, 2)) {
+                    drawX();
+                }
                 break;
             case 8:
-                board.setX(1, 2);
+                if (!board.setX(1, 2)) {
+                    drawX();
+                }
                 break;
             case 9:
-                board.setX(2, 2);
+                if (!board.setX(2, 2)) {
+                    drawX();
+                }
                 break;
         }
     }

@@ -13,6 +13,7 @@ public class Board {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public boolean isFull() {
@@ -52,6 +53,7 @@ public class Board {
     /**
      * дописать проверку столбов
      * создать метод анализа своей позиции
+     *
      * @return
      */
     private boolean repelTheThreatX() {
@@ -176,16 +178,16 @@ public class Board {
 
         // не главная диагональ
         countX = 0;
-        for (int j = fild.length - 1; j > 0; j--) {
-            if (fild[j][j].equals("X")) {
+        for (int j = 0; j < fild.length; j++) {
+            if (fild[j][fild.length - (j + 1)].equals("X")) {
                 countX++;
             }
         }
 
         if (countX == 2) {
-            for (int j = fild.length - 1; j > 0; j--) {
-                if (fild[j][j].equals("+")) {
-                    setO(j, j);
+            for (int j = 0; j < fild.length; j++) {
+                if (fild[j][fild.length - (j + 1)].equals("+")) {
+                    setO(j, fild.length - (j + 1));
                     return true;
                 }
             }
@@ -328,7 +330,7 @@ public class Board {
 
         // главная диагональ
         countX = 0;
-        countPlus =0;
+        countPlus = 0;
         for (int j = 0; j < fild.length; j++) {
             if (fild[j][j].equals("X")) {
                 countX++;
@@ -351,8 +353,8 @@ public class Board {
         // не главная диагональ
         countX = 0;
         countPlus = 0;
-        for (int j = fild.length - 1; j > 0; j--) {
-            if (fild[j][j].equals("X")) {
+        for (int j = 0; j < fild.length; j++) {
+            if (fild[j][fild.length - (j + 1)].equals("X")) {
                 countX++;
             }
             if (fild[j][j].equals("O")) {
@@ -361,9 +363,9 @@ public class Board {
         }
 
         if (countX == 2 && countPlus == 1) {
-            for (int j = fild.length - 1; j > 0; j--) {
-                if (fild[j][j].equals("+")) {
-                    setO(j, j);
+            for (int j = 0; j < fild.length; j++) {
+                if (fild[j][fild.length - (j + 1)].equals("+")) {
+                    setO(j, fild.length - (j + 1));
                     full_Line = true;
                     return true;
                 }
@@ -477,7 +479,7 @@ public class Board {
 
         // главная диагональ
         countX = 0;
-        countO =0;
+        countO = 0;
         for (int j = 0; j < fild.length; j++) {
             if (fild[j][j].equals("X")) {
                 countX++;
@@ -495,11 +497,11 @@ public class Board {
         // не главная диагональ
         countX = 0;
         countO = 0;
-        for (int j = fild.length - 1; j > 0; j--) {
-            if (fild[j][j].equals("X")) {
+        for (int j = 0; j < fild.length; j++) {
+            if (fild[j][fild.length - (j + 1)].equals("X")) {
                 countX++;
             }
-            if (fild[j][j].equals("O")) {
+            if (fild[j][fild.length - (j + 1)].equals("O")) {
                 countO++;
             }
         }
@@ -511,11 +513,19 @@ public class Board {
         return false;
     }
 
-    public void setX(int j, int i) {
-        fild[j][i] = "X";
+    public boolean setX(int j, int i) {
+        if (fild[j][i].equals("+")) {
+            fild[j][i] = "X";
+            return true;
+        }
+        return false;
     }
 
-    public void setO(int j, int i) {
-        fild[j][i] = "O";
+    public boolean setO(int j, int i) {
+        if (fild[j][i].equals("+")) {
+            fild[j][i] = "O";
+            return true;
+        }
+        return false;
     }
 }
