@@ -1,6 +1,7 @@
 public class Board {
     private static String[][] field = new String[][]{{"+", "+", "+"}, {"+", "+", "+"}, {"+", "+", "+"}};
     private boolean full_Line = false;
+    public boolean is_step_possible;
 
     public boolean isFull_Line() {
         return full_Line;
@@ -32,34 +33,31 @@ public class Board {
     }
 
     public void analysisO() {
+        if (!is_step_possible) return;
         if (!opportunityForSuccessO() && !repelTheThreatX()) {
             if (field[1][1].equals("+"))
-                field[1][1] = "O";
+                setO(1,1);
             else if (field[0][0].equals("+"))
-                field[0][0] = "O";
-            else if (field[2][0].equals("+")) field[2][0] = "O";
-            else if (field[2][2].equals("+"))
-                field[2][2] = "O";
+               setO(0,0);
             else if (field[2][0].equals("+"))
-                field[2][0] = "O";
+                setO(2,0);
+            else if (field[2][2].equals("+"))
+                setO(2,2);
+            else if (field[2][0].equals("+"))
+                setO(2,0);
             else if (field[0][1].equals("+"))
-                field[0][1] = "O";
+                setO(0,1);
             else if (field[1][2].equals("+"))
-                field[1][2] = "O";
+                setO(1,2);
             else if (field[2][1].equals("+"))
-                field[2][1] = "O";
+                setO(2,1);
             else if (field[1][0].equals("+"))
-                field[1][0] = "O";
+                setO(1,0);
 
         }
     }
 
-    /**
-     * дописать проверку столбов
-     * создать метод анализа своей позиции
-     *
-     * @return
-     */
+
     private boolean repelTheThreatX() {
         // 1-й ряд
         int countX = 0;
@@ -201,18 +199,18 @@ public class Board {
 
     private boolean opportunityForSuccessO() {
         // 1-й ряд
-        int countX = 0;
+        int countO = 0;
         int countPlus = 0;
         for (int j = 0; j < field.length; j++) {
-            if (field[j][0].equals("X")) {
-                countX++;
+            if (field[j][0].equals("O")) {
+                countO++;
             }
             if (field[j][0].equals("+")) {
                 countPlus++;
             }
         }
 
-        if (countX == 2 && countPlus == 1) {
+        if (countO == 2 && countPlus == 1) {
             for (int j = 0; j < field.length; j++) {
                 if (field[j][0].equals("+")) {
                     setO(j, 0);
@@ -223,18 +221,18 @@ public class Board {
         }
 
         // 2-й ряд
-        countX = 0;
+        countO = 0;
         countPlus = 0;
         for (int j = 0; j < field.length; j++) {
-            if (field[j][1].equals("X")) {
-                countX++;
+            if (field[j][1].equals("O")) {
+                countO++;
             }
             if (field[j][1].equals("+")) {
                 countPlus++;
             }
         }
 
-        if (countX == 2 && countPlus == 1) {
+        if (countO == 2 && countPlus == 1) {
             for (int j = 0; j < field.length; j++) {
                 if (field[j][1].equals("+")) {
                     setO(j, 1);
@@ -245,18 +243,18 @@ public class Board {
         }
 
         // 3-й ряд
-        countX = 0;
+        countO = 0;
         countPlus = 0;
         for (int j = 0; j < field.length; j++) {
-            if (field[j][2].equals("X")) {
-                countX++;
+            if (field[j][2].equals("O")) {
+                countO++;
             }
             if (field[j][2].equals("+")) {
                 countPlus++;
             }
         }
 
-        if (countX == 2 && countPlus == 1) {
+        if (countO == 2 && countPlus == 1) {
             for (int j = 0; j < field.length; j++) {
                 if (field[j][2].equals("+")) {
                     setO(j, 2);
@@ -267,18 +265,18 @@ public class Board {
         }
 
         // 1-й столб
-        countX = 0;
+        countO = 0;
         countPlus = 0;
         for (int i = 0; i < field.length; i++) {
-            if (field[0][i].equals("X")) {
-                countX++;
+            if (field[0][i].equals("O")) {
+                countO++;
             }
             if (field[0][i].equals("+")) {
                 countPlus++;
             }
         }
 
-        if (countX == 2 && countPlus == 1) {
+        if (countO == 2 && countPlus == 1) {
             for (int i = 0; i < field.length; i++) {
                 if (field[0][i].equals("+")) {
                     setO(0, i);
@@ -289,18 +287,18 @@ public class Board {
         }
 
         // 2-й столб
-        countX = 0;
+        countO = 0;
         countPlus = 0;
         for (int i = 0; i < field.length; i++) {
-            if (field[1][i].equals("X")) {
-                countX++;
+            if (field[1][i].equals("O")) {
+                countO++;
             }
             if (field[1][i].equals("+")) {
                 countPlus++;
             }
         }
 
-        if (countX == 2 && countPlus == 1) {
+        if (countO == 2 && countPlus == 1) {
             for (int i = 0; i < field.length; i++) {
                 if (field[1][i].equals("+")) {
                     setO(1, i);
@@ -311,18 +309,18 @@ public class Board {
         }
 
         // 3-й ряд
-        countX = 0;
+        countO = 0;
         countPlus = 0;
         for (int i = 0; i < field.length; i++) {
-            if (field[2][i].equals("X")) {
-                countX++;
+            if (field[2][i].equals("O")) {
+                countO++;
             }
             if (field[2][i].equals("+")) {
                 countPlus++;
             }
         }
 
-        if (countX == 2 && countPlus == 1) {
+        if (countO == 2 && countPlus == 1) {
             for (int i = 0; i < field.length; i++) {
                 if (field[2][i].equals("+")) {
                     setO(2, i);
@@ -333,18 +331,18 @@ public class Board {
         }
 
         // главная диагональ
-        countX = 0;
+        countO = 0;
         countPlus = 0;
         for (int j = 0; j < field.length; j++) {
-            if (field[j][j].equals("X")) {
-                countX++;
+            if (field[j][j].equals("O")) {
+                countO++;
             }
             if (field[j][j].equals("+")) {
                 countPlus++;
             }
         }
 
-        if (countX == 2 && countPlus == 1) {
+        if (countO == 2 && countPlus == 1) {
             for (int j = 0; j < field.length; j++) {
                 if (field[j][j].equals("+")) {
                     setO(j, j);
@@ -355,18 +353,18 @@ public class Board {
         }
 
         // не главная диагональ
-        countX = 0;
+        countO = 0;
         countPlus = 0;
         for (int j = 0; j < field.length; j++) {
-            if (field[j][field.length - (j + 1)].equals("X")) {
-                countX++;
+            if (field[j][field.length - (j + 1)].equals("O")) {
+                countO++;
             }
             if (field[j][j].equals("O")) {
                 countPlus++;
             }
         }
 
-        if (countX == 2 && countPlus == 1) {
+        if (countO == 2 && countPlus == 1) {
             for (int j = 0; j < field.length; j++) {
                 if (field[j][field.length - (j + 1)].equals("+")) {
                     setO(j, field.length - (j + 1));
@@ -520,6 +518,7 @@ public class Board {
     public boolean setX(int j, int i) {
         if (field[j][i].equals("+")) {
             field[j][i] = "X";
+            is_step_possible = true;
             return true;
         }
         return false;
@@ -528,6 +527,7 @@ public class Board {
     public boolean setO(int j, int i) {
         if (field[j][i].equals("+")) {
             field[j][i] = "O";
+            is_step_possible = false;
             return true;
         }
         return false;
