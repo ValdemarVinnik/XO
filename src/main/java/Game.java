@@ -38,10 +38,6 @@ public class Game {
         }
     }
 
-    private void step() {
-
-    }
-
     private void drawX() {
         switch (inquiry()) {
             case 1:
