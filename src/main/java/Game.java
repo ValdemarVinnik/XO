@@ -3,12 +3,13 @@ import java.util.Scanner;
 public class Game {
     public static Game game = new Game();
     public static boolean aLive = true;
+    private static GameWindow gameWindow;
 
-    private Board board;
+    public static Board board = new Board();
 
 
     public void run() throws InterruptedException {
-        board = new Board();
+
         board.printField();
 
         while (true) {
