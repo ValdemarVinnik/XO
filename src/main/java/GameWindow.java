@@ -16,7 +16,7 @@ public class GameWindow extends JFrame{
 
     private GameWindow() throws IOException {
         this.background = ImageIO.read(GameWindow.class.getResourceAsStream("list.jpg"));
-        this.fild = ImageIO.read(GameWindow.class.getResourceAsStream("background.png"));
+        this.fild = ImageIO.read(GameWindow.class.getResourceAsStream("fild.png"));
         this.o = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
         this.x = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
         game_window.add(new GameField());
