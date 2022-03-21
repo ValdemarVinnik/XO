@@ -2,7 +2,6 @@ public class Board {
     private static String[][] field = new String[][]{{"+", "+", "+"}, {"+", "+", "+"}, {"+", "+", "+"}};
     private boolean full_Line = false;
     public boolean is_step_possible;
-
     public boolean isFull_Line() {
         return full_Line;
     }
@@ -516,7 +515,7 @@ public class Board {
     }
 
     public boolean setX(int j, int i) {
-        if (field[j][i].equals("+")) {
+        if (field[j][i].equals("+") && !full_Line) {
             field[j][i] = "X";
             is_step_possible = true;
             return true;
@@ -525,7 +524,7 @@ public class Board {
     }
 
     public boolean setO(int j, int i) {
-        if (field[j][i].equals("+")) {
+        if (field[j][i].equals("+") && !full_Line) {
             field[j][i] = "O";
             is_step_possible = false;
             return true;

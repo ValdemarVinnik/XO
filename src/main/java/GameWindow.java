@@ -27,6 +27,7 @@ public class GameWindow extends JFrame {
     }
 
     public GameWindow setParam() {
+        game_window.setTitle("Game XO");
         game_window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         game_window.setLocation(200, 100);
         game_window.setSize(600, 478);
@@ -45,6 +46,7 @@ public class GameWindow extends JFrame {
             public void mousePressed(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
+
 
                 if (y > 60 && y < 160) {
                     if (x > 220 && x < 320) {
@@ -79,12 +81,14 @@ public class GameWindow extends JFrame {
                         Game.getInstance().drawX(9);
                     }
                 }
+
+
             }
         });
         return gameField;
     }
 
-    public void setTitle(String message) {
+    public void setTitleMessage(String message) {
        title_message = message;
     }
 
@@ -102,6 +106,7 @@ public class GameWindow extends JFrame {
         //  String[][] matrix = new String[][]{{"O","X","+"},{"X","O","X"},{"X","X","O"},};
         g.drawImage(background, 0, 0, null);
         g.drawImage(field, 200, 30, null);
+
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -161,11 +166,11 @@ public class GameWindow extends JFrame {
         while (true) {
 
             if (game.board.somebodyWin()) {
-                setTitle("You win!!!");
+                setTitleMessage("You win!!!");
                 break;
             }
             if (game.board.isFull()) {
-                setTitle("Nobody wins...");
+                setTitleMessage("Nobody wins...");
                 break;
             }
             //Thread.sleep(1000);
@@ -173,11 +178,11 @@ public class GameWindow extends JFrame {
             game.board.analysisO();
 
             if (game.board.somebodyWin()) {
-                setTitle("You wOn!!!");
+                setTitleMessage("You wOn!!!");
                 break;
             }
             if (game.board.isFull()) {
-                setTitle("Nobody wins...");
+                setTitleMessage("Nobody wins...");
                 break;
             }
 
