@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class GameWindow extends JFrame {
     private static GameWindow game_window;
+    private static JButton try_again_button;
     private static Image background;
     private static Image field;
     private static Image o;
@@ -22,18 +23,23 @@ public class GameWindow extends JFrame {
         field = ImageIO.read(GameWindow.class.getResourceAsStream("fild.png"));
         o = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
         x = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
-        //setParam();
+       //setParam();
 
     }
 
     public GameWindow setParam() {
+
         game_window.setTitle("Game XO");
         game_window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         game_window.setLocation(200, 100);
         game_window.setSize(600, 478);
         game_window.setResizable(false);
+        try_again_button = new JButton("Try again...");
+        try_again_button.setBounds(10,10,200,50);
+        try_again_button.setDefaultCapable(false);
 
         game_window.add(getGameField());
+        game_window.add(try_again_button);
         game_window.setVisible(true);
         return game_window;
     }
