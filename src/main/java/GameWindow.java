@@ -12,7 +12,9 @@ public class GameWindow extends JFrame {
     private static Image field;
     private static Image o;
     private static Image x;
+    private static JDialog try_again_dialog;
     private String title_message;
+
 
     public static GameWindow getInstance() throws IOException {
         return game_window == null ? game_window = new GameWindow() : game_window;
@@ -23,7 +25,7 @@ public class GameWindow extends JFrame {
         field = ImageIO.read(GameWindow.class.getResourceAsStream("fild.png"));
         o = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
         x = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
-       //setParam();
+       try_again_dialog = GameWindow.getTryAgainDialog();
 
     }
 
@@ -34,12 +36,12 @@ public class GameWindow extends JFrame {
         game_window.setLocation(200, 100);
         game_window.setSize(600, 478);
         game_window.setResizable(false);
-        try_again_button = new JButton("Try again...");
-        try_again_button.setBounds(10,10,200,50);
-        try_again_button.setDefaultCapable(false);
+       // try_again_button = new JButton("Try again...");
+       // try_again_button.setBounds(10,10,200,50);
+        //try_again_button.setDefaultCapable(false);
 
         game_window.add(getGameField());
-        game_window.add(try_again_button);
+       // game_window.add(try_again_button);
         game_window.setVisible(true);
         return game_window;
     }
@@ -94,6 +96,23 @@ public class GameWindow extends JFrame {
         return gameField;
     }
 
+    private static JDialog getTryAgainDialog(){
+        JDialog dialog = new JDialog();
+        Button try_again_button = new Button("Try again...");
+        try_again_button.setSize(50,80);
+        try_again_button.setLocation(75,10);
+        try_again_button.setVisible(true);
+        dialog.setSize(200,200);
+        Button end_button = new Button("end");
+        try_again_button.setSize(50,80);
+        try_again_button.setLocation(75,110);
+        try_again_button.setVisible(true);
+        dialog.setSize(200,200);
+        dialog.add(try_again_button);
+        dialog.add(end_button);
+        return dialog;
+    }
+
     public void setTitleMessage(String message) {
        title_message = message;
     }
@@ -126,42 +145,10 @@ public class GameWindow extends JFrame {
         }
 
         if (game_window.title_message != null){ game_window.setTitle(game_window.title_message);}
+        if (Game.board.isFull_Line()){
 
-
-//        //1
-//        g.drawImage(o,240 ,70,null);
-//       // g.drawImage(x,240 ,70,null);
-//        //2
-//        //g.drawImage(o,350 ,70,null);
-//         g.drawImage(x,350 ,70,null);
-//         //3
-//        g.drawImage(o,460 ,70,null);
-//        //g.drawImage(x,460 ,70,null);
-//        //4
-//        g.drawImage(o,240 ,170,null);
-//        // g.drawImage(x,240 ,70,null);
-//        //5
-//        //g.drawImage(o,350 ,70,null);
-//        g.drawImage(x,350 ,170,null);
-//        //6
-//        g.drawImage(o,460 ,170,null);
-//        //g.drawImage(x,460 ,70,null);
-//        //7
-//        g.drawImage(o,240 ,270,null);
-//        // g.drawImage(x,240 ,70,null);
-//        //8
-//        //g.drawImage(o,350 ,70,null);
-//        g.drawImage(x,350 ,270,null);
-//        //9
-//        g.drawImage(o,460 ,270,null);
-        //g.drawImage(x,460 ,70,null);
-//        long current_time = System.nanoTime();
-//        float delta_time = (current_time - last_frame_time)*0.000000001f;
-//        last_frame_time = current_time;
-//        drop_top = drop_top + drop_v*delta_time;
-//        g.drawImage(background, 0, 0, null);
-//        g.drawImage(drop, (int) drop_left, (int) drop_top, null);
-//        if(drop_top> gameWindow.getHeight()) g.drawImage(game_over, 150, 80, null);
+            try_again_dialog.setVisible(true);
+        }
     }
 
     public void run() {
