@@ -1,13 +1,15 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class GameWindow extends JFrame {
     private static GameWindow game_window;
-    private static JButton try_again_button;
+
     private static Image background;
     private static Image field;
     private static Image o;
@@ -25,7 +27,7 @@ public class GameWindow extends JFrame {
         field = ImageIO.read(GameWindow.class.getResourceAsStream("fild.png"));
         o = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
         x = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
-       try_again_dialog = GameWindow.getTryAgainDialog();
+        try_again_dialog = GameWindow.getTryAgainDialog();
 
     }
 
@@ -36,12 +38,8 @@ public class GameWindow extends JFrame {
         game_window.setLocation(200, 100);
         game_window.setSize(600, 478);
         game_window.setResizable(false);
-       // try_again_button = new JButton("Try again...");
-       // try_again_button.setBounds(10,10,200,50);
-        //try_again_button.setDefaultCapable(false);
-
         game_window.add(getGameField());
-       // game_window.add(try_again_button);
+
         game_window.setVisible(true);
         return game_window;
     }
@@ -96,25 +94,48 @@ public class GameWindow extends JFrame {
         return gameField;
     }
 
-    private static JDialog getTryAgainDialog(){
-        JDialog dialog = new JDialog();
+    private static JDialog getTryAgainDialog() {
+        final JDialog dialog = new JDialog();
+        dialog.setLocation(200, 300);
+        // Панель содержимого
+        Container container = dialog.getContentPane();
+        // Устанавливаем менеджер последовательного расположения
+        container.setLayout(new FlowLayout());
+
         Button try_again_button = new Button("Try again...");
-        try_again_button.setSize(50,80);
-        try_again_button.setLocation(75,10);
+        try_again_button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                Game.getInstance().restartGame();
+                try_again_dialog.setVisible(false);
+
+//               try {
+//                    run();
+//                } catch (InterruptedException ex) {
+//                    ex.printStackTrace();
+//               }
+
+                game_window.setTitleMessage("Game XO");
+
+            }
+        });
         try_again_button.setVisible(true);
-        dialog.setSize(200,200);
+
         Button end_button = new Button("end");
-        try_again_button.setSize(50,80);
-        try_again_button.setLocation(75,110);
-        try_again_button.setVisible(true);
-        dialog.setSize(200,200);
-        dialog.add(try_again_button);
-        dialog.add(end_button);
+//        end_button.setSize(100,50);
+//        end_button.setLocation(30,30);
+        end_button.setVisible(true);
+
+
+        container.add(try_again_button);
+        container.add(end_button);
+        dialog.setSize(200, 100);
         return dialog;
     }
 
     public void setTitleMessage(String message) {
-       title_message = message;
+        title_message = message;
     }
 
     private static class GameField extends JPanel {
@@ -127,11 +148,19 @@ public class GameWindow extends JFrame {
     }
 
     private static void onRepaint(Graphics g) {
-        String[][] matrix = Game.board.getField();
+
+        String[][] matrix = Game.getInstance().board.getField();
         //  String[][] matrix = new String[][]{{"O","X","+"},{"X","O","X"},{"X","X","O"},};
         g.drawImage(background, 0, 0, null);
         g.drawImage(field, 200, 30, null);
 
+//        for (int i = 0; i < matrix.length; i++) {
+//            for (int j = 0; j < matrix.length; j++) {
+//                System.out.print(matrix[j][i]);
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -144,45 +173,55 @@ public class GameWindow extends JFrame {
             }
         }
 
-        if (game_window.title_message != null){ game_window.setTitle(game_window.title_message);}
-        if (Game.board.isFull_Line()){
-
+        if (game_window.title_message != null) {
+            game_window.setTitle(game_window.title_message);
+        }
+        if (!Game.getInstance().getAlive()|| Game.getInstance().board.isFull()) {
             try_again_dialog.setVisible(true);
-        }
-    }
 
-    public void run() {
-        Game game = Game.getInstance();
-        //board.printField();
-
-
-        while (true) {
-
-            if (game.board.somebodyWin()) {
-                setTitleMessage("You win!!!");
-                break;
-            }
-            if (game.board.isFull()) {
-                setTitleMessage("Nobody wins...");
-                break;
-            }
-            //Thread.sleep(1000);
-
-            game.board.analysisO();
-
-            if (game.board.somebodyWin()) {
-                setTitleMessage("You wOn!!!");
-                break;
-            }
-            if (game.board.isFull()) {
-                setTitleMessage("Nobody wins...");
-                break;
-            }
 
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public void run() throws InterruptedException {
+       // System.out.println("Run");
+        // Game game = Game.getInstance();
+        int count = 0;
+        //System.out.println(Game.getInstance().getAlive());
+
+        while (!Game.getInstance().isEnd) {
+
+
+            while (Game.getInstance().getAlive()) {
+                // System.out.println(count++);
+                if (Game.getInstance().board.somebodyWin()) {
+                    setTitleMessage("You win!!!");
+                    break;
+                }
+                if (Game.getInstance().board.isFull()) {
+                    setTitleMessage("Nobody wins...");
+                    break;
+                }
+
+                Game.getInstance().board.analysisO();
+                //game.board.printField();
+
+
+                if (Game.getInstance().board.somebodyWin()) {
+                    setTitleMessage("You wOn!!!");
+
+                }
+                if (Game.getInstance().board.isFull()) {
+                    setTitleMessage("Nobody wins...");
+                    break;
+                }
+
+            }
+
+        }
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         getInstance().setParam().run();
 
 

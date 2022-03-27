@@ -2,12 +2,18 @@ public class Board {
     private static String[][] field = new String[][]{{"+", "+", "+"}, {"+", "+", "+"}, {"+", "+", "+"}};
     private boolean full_Line = false;
     public boolean is_step_possible;
+
     public boolean isFull_Line() {
         return full_Line;
     }
 
     public String[][] getField() {
-        return field;
+        return this.field;
+    }
+
+    public void restart(){
+        field = new String[][]{{"+", "+", "+"}, {"+", "+", "+"}, {"+", "+", "+"}};
+        full_Line = false;
     }
 
     public void printField() {

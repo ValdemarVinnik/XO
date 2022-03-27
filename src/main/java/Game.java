@@ -3,17 +3,26 @@ import java.util.Scanner;
 
 public class Game {
     public static Game game;
-    public boolean aLive = true;
-    private static GameWindow gameWindow;
-
-    public static Board board = new Board();
+    private boolean aLive;
+    public Board board;
+    public boolean isEnd = false;
 
     public static Game getInstance(){
         return game == null? game = new Game(): game;
     }
 
-    private Game(){
+    public boolean getAlive(){
 
+        return !this.board.isFull_Line();
+    }
+
+    private Game(){
+        this.board = new Board();
+    }
+
+    public void restartGame(){
+        board.restart();
+        //this.aLive = true;
     }
 
     public void drawX(int i) {
