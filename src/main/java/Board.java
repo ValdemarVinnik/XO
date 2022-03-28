@@ -2,6 +2,16 @@ public class Board {
     private static String[][] field = new String[][]{{"+", "+", "+"}, {"+", "+", "+"}, {"+", "+", "+"}};
     private boolean full_Line = false;
     public boolean is_step_possible;
+    private boolean is_X_win = false;
+    private boolean is_O_win = false;
+
+    public boolean getIs_X_win() {
+        return is_X_win;
+    }
+
+    public boolean getIs_O_win() {
+        return is_O_win;
+    }
 
     public boolean isFull_Line() {
         return full_Line;
@@ -13,7 +23,10 @@ public class Board {
 
     public void restart(){
         field = new String[][]{{"+", "+", "+"}, {"+", "+", "+"}, {"+", "+", "+"}};
+        is_step_possible = false;
         full_Line = false;
+        is_O_win = false;
+        is_X_win = false;
     }
 
     public void printField() {
@@ -395,7 +408,14 @@ public class Board {
             }
         }
 
-        if (countX == 3 || countO == 3) {
+        if (countX == 3) {
+            is_X_win = true;
+            full_Line = true;
+            return true;
+        }
+
+        if (countO == 3) {
+            is_O_win = true;
             full_Line = true;
             return true;
         }
@@ -412,7 +432,14 @@ public class Board {
             }
         }
 
-        if (countX == 3 || countO == 3) {
+        if (countX == 3) {
+            is_X_win = true;
+            full_Line = true;
+            return true;
+        }
+
+        if (countO == 3) {
+            is_O_win = true;
             full_Line = true;
             return true;
         }
@@ -429,7 +456,14 @@ public class Board {
             }
         }
 
-        if (countX == 3 || countO == 3) {
+        if (countX == 3) {
+            is_X_win = true;
+            full_Line = true;
+            return true;
+        }
+
+        if (countO == 3) {
+            is_O_win = true;
             full_Line = true;
             return true;
         }
@@ -446,7 +480,14 @@ public class Board {
             }
         }
 
-        if (countX == 3 || countO == 3) {
+        if (countX == 3) {
+            is_X_win = true;
+            full_Line = true;
+            return true;
+        }
+
+        if (countO == 3) {
+            is_O_win = true;
             full_Line = true;
             return true;
         }
@@ -463,7 +504,14 @@ public class Board {
             }
         }
 
-        if (countX == 3 || countO == 3) {
+        if (countX == 3) {
+            is_X_win = true;
+            full_Line = true;
+            return true;
+        }
+
+        if (countO == 3) {
+            is_O_win = true;
             full_Line = true;
             return true;
         }
@@ -480,7 +528,14 @@ public class Board {
             }
         }
 
-        if (countX == 3 || countO == 3) {
+        if (countX == 3) {
+            is_X_win = true;
+            full_Line = true;
+            return true;
+        }
+
+        if (countO == 3) {
+            is_O_win = true;
             full_Line = true;
             return true;
         }
@@ -497,7 +552,14 @@ public class Board {
             }
         }
 
-        if (countX == 3 || countO == 3) {
+        if (countX == 3) {
+            is_X_win = true;
+            full_Line = true;
+            return true;
+        }
+
+        if (countO == 3) {
+            is_O_win = true;
             full_Line = true;
             return true;
         }
@@ -514,7 +576,14 @@ public class Board {
             }
         }
 
-        if (countX == 3 || countO == 3) {
+        if (countX == 3) {
+            is_X_win = true;
+            full_Line = true;
+            return true;
+        }
+
+        if (countO == 3) {
+            is_O_win = true;
             full_Line = true;
             return true;
         }

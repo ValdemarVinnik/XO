@@ -181,29 +181,36 @@ public class GameWindow extends JFrame {
         while (!Game.getInstance().isEnd) {
 
 
-            while (Game.getInstance().getAlive()) {
-
-                if (Game.getInstance().board.somebodyWin() && Game.getInstance().board.is_step_possible) {
-                    setTitleMessage("You win!!!");
-                    break;
-                }
-
-                if (Game.getInstance().board.isFull()) {
-                    setTitleMessage("Nobody wins...");
-                    break;
-                }
+            while (Game.getInstance().getAlive() && !Game.getInstance().board.isFull()) {
 
                 Game.getInstance().board.analysisO();
 
-
-                if (Game.getInstance().board.somebodyWin() && !Game.getInstance().board.somebodyWin()) {
-                    setTitleMessage("You wOn!!!");
-
-                }
-                if (Game.getInstance().board.isFull()) {
-                    setTitleMessage("Nobody wins...");
+                if (Game.getInstance().board.somebodyWin() && Game.getInstance().board.getIs_X_win()) {
+                    setTitleMessage("You win!!!");
+                    System.out.println("x "+ Game.getInstance().board.getIs_X_win());
+                    System.out.println("o "+ Game.getInstance().board.getIs_O_win());
                     break;
                 }
+
+                if (Game.getInstance().board.somebodyWin() && Game.getInstance().board.getIs_O_win()) {
+                    setTitleMessage("You wOn!!!");
+                    System.out.println("x "+ Game.getInstance().board.getIs_X_win());
+                    System.out.println("o "+ Game.getInstance().board.getIs_O_win());
+                    break;
+
+                }
+
+                if (Game.getInstance().board.isFull()) {
+                    setTitleMessage("Nobody wins...");
+                    System.out.println("x "+ Game.getInstance().board.getIs_X_win());
+                    System.out.println("o "+ Game.getInstance().board.getIs_O_win());
+                    break;
+                }
+
+//                if (Game.getInstance().board.isFull()) {
+//                    setTitleMessage("Nobody wins...");
+//                    break;
+//                }
 
             }
 
