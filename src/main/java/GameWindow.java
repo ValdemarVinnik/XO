@@ -121,7 +121,8 @@ public class GameWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Game.getInstance().isEnd = false;
                //dialog.dispose();
-                System.exit(1);
+                Runtime.getRuntime().exit(0);
+               // System.exit(1);
             }
         });
 
