@@ -97,6 +97,7 @@ public class GameWindow extends JFrame {
     private static JDialog getTryAgainDialog() {
         final JDialog dialog = new JDialog();
         dialog.setLocation(200, 300);
+
         // Панель содержимого
         Container container = dialog.getContentPane();
         // Устанавливаем менеджер последовательного расположения
@@ -109,13 +110,6 @@ public class GameWindow extends JFrame {
 
                 Game.getInstance().restartGame();
                 try_again_dialog.setVisible(false);
-
-//               try {
-//                    run();
-//                } catch (InterruptedException ex) {
-//                    ex.printStackTrace();
-//               }
-
                 game_window.setTitleMessage("Game XO");
 
             }
@@ -123,8 +117,14 @@ public class GameWindow extends JFrame {
         try_again_button.setVisible(true);
 
         Button end_button = new Button("end");
-//        end_button.setSize(100,50);
-//        end_button.setLocation(30,30);
+        end_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Game.getInstance().isEnd = false;
+               //dialog.dispose();
+                System.exit(1);
+            }
+        });
+
         end_button.setVisible(true);
 
 
