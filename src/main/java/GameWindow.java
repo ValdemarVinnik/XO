@@ -155,14 +155,6 @@ public class GameWindow extends JFrame {
         g.drawImage(background, 0, 0, null);
         g.drawImage(field, 200, 30, null);
 
-//        for (int i = 0; i < matrix.length; i++) {
-//            for (int j = 0; j < matrix.length; j++) {
-//                System.out.print(matrix[j][i]);
-//            }
-//            System.out.println();
-//        }
-//        System.out.println();
-
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 if (matrix[j][i].equals("X")) {
@@ -185,30 +177,26 @@ public class GameWindow extends JFrame {
     }
 
     public void run() throws InterruptedException {
-       // System.out.println("Run");
-        // Game game = Game.getInstance();
-        int count = 0;
-        //System.out.println(Game.getInstance().getAlive());
 
         while (!Game.getInstance().isEnd) {
 
 
             while (Game.getInstance().getAlive()) {
-                // System.out.println(count++);
-                if (Game.getInstance().board.somebodyWin()) {
+
+                if (Game.getInstance().board.somebodyWin() && Game.getInstance().board.is_step_possible) {
                     setTitleMessage("You win!!!");
                     break;
                 }
+
                 if (Game.getInstance().board.isFull()) {
                     setTitleMessage("Nobody wins...");
                     break;
                 }
 
                 Game.getInstance().board.analysisO();
-                //game.board.printField();
 
 
-                if (Game.getInstance().board.somebodyWin()) {
+                if (Game.getInstance().board.somebodyWin() && !Game.getInstance().board.somebodyWin()) {
                     setTitleMessage("You wOn!!!");
 
                 }

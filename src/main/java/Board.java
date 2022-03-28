@@ -40,24 +40,25 @@ public class Board {
     public void analysisO() {
         if (!is_step_possible) return;
         if (!opportunityForSuccessO() && !repelTheThreatX()) {
-            if (field[1][1].equals("+"))
-                setO(1,1);
-            else if (field[0][0].equals("+"))
-               setO(0,0);
+
+            if (field[0][0].equals("+"))
+                setO(0, 0);
             else if (field[2][0].equals("+"))
-                setO(2,0);
+                setO(2, 0);
             else if (field[2][2].equals("+"))
-                setO(2,2);
+                setO(2, 2);
             else if (field[2][0].equals("+"))
-                setO(2,0);
+                setO(2, 0);
             else if (field[0][1].equals("+"))
-                setO(0,1);
+                setO(0, 1);
             else if (field[1][2].equals("+"))
                 setO(1,2);
             else if (field[2][1].equals("+"))
                 setO(2,1);
             else if (field[1][0].equals("+"))
-                setO(1,0);
+                setO(1, 0);
+            else if (field[1][1].equals("+"))
+                setO(1, 1);
 
         }
     }
