@@ -4,6 +4,11 @@ public class Board {
     public boolean is_step_possible;
     private boolean is_X_win = false;
     private boolean is_O_win = false;
+    private int line_winner = 0;
+
+    public int getLine_winner() {
+        return line_winner;
+    }
 
     public boolean getIs_X_win() {
         return is_X_win;
@@ -27,6 +32,7 @@ public class Board {
         full_Line = false;
         is_O_win = false;
         is_X_win = false;
+        line_winner = 0;
     }
 
     public void printField() {
@@ -411,12 +417,14 @@ public class Board {
         if (countX == 3) {
             is_X_win = true;
             full_Line = true;
+            line_winner = 1;
             return true;
         }
 
         if (countO == 3) {
             is_O_win = true;
             full_Line = true;
+            line_winner = 1;
             return true;
         }
 
@@ -435,12 +443,14 @@ public class Board {
         if (countX == 3) {
             is_X_win = true;
             full_Line = true;
+            line_winner = 2;
             return true;
         }
 
         if (countO == 3) {
             is_O_win = true;
             full_Line = true;
+            line_winner = 2;
             return true;
         }
 
@@ -459,12 +469,14 @@ public class Board {
         if (countX == 3) {
             is_X_win = true;
             full_Line = true;
+            line_winner = 3;
             return true;
         }
 
         if (countO == 3) {
             is_O_win = true;
             full_Line = true;
+            line_winner = 3;
             return true;
         }
 
@@ -483,12 +495,14 @@ public class Board {
         if (countX == 3) {
             is_X_win = true;
             full_Line = true;
+            line_winner = 4;
             return true;
         }
 
         if (countO == 3) {
             is_O_win = true;
             full_Line = true;
+            line_winner = 4;
             return true;
         }
 
@@ -507,12 +521,14 @@ public class Board {
         if (countX == 3) {
             is_X_win = true;
             full_Line = true;
+            line_winner = 5;
             return true;
         }
 
         if (countO == 3) {
             is_O_win = true;
             full_Line = true;
+            line_winner = 5;
             return true;
         }
 
@@ -531,12 +547,14 @@ public class Board {
         if (countX == 3) {
             is_X_win = true;
             full_Line = true;
+            line_winner = 6;
             return true;
         }
 
         if (countO == 3) {
             is_O_win = true;
             full_Line = true;
+            line_winner = 6;
             return true;
         }
 
@@ -555,12 +573,14 @@ public class Board {
         if (countX == 3) {
             is_X_win = true;
             full_Line = true;
+            line_winner = 7;
             return true;
         }
 
         if (countO == 3) {
             is_O_win = true;
             full_Line = true;
+            line_winner = 7;
             return true;
         }
 
@@ -579,12 +599,14 @@ public class Board {
         if (countX == 3) {
             is_X_win = true;
             full_Line = true;
+            line_winner = 8;
             return true;
         }
 
         if (countO == 3) {
             is_O_win = true;
             full_Line = true;
+            line_winner = 8;
             return true;
         }
         return false;
