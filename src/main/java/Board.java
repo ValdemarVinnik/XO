@@ -58,12 +58,10 @@ public class Board {
 
     public void analysisO() {
         if (!is_step_possible) return;
-        if (!opportunityForSuccessO() && !repelTheThreatX()) {
+        if (!opportunityForSuccessO() & !repelTheThreatX() & !mainStrategy()) {
 
             if (field[0][0].equals("+"))
                 setO(0, 0);
-            else if (field[2][0].equals("+"))
-                setO(2, 0);
             else if (field[2][2].equals("+"))
                 setO(2, 2);
             else if (field[2][0].equals("+"))
@@ -217,6 +215,45 @@ public class Board {
                     setO(j, field.length - (j + 1));
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    private boolean mainStrategy() {
+        if (field[0][0].equals("X") && field[2][2].equals("+")) {
+            if (field[1][2].equals("+")) {
+                return setO(1, 2);
+            }
+            if (field[2][1].equals("+")) {
+                return setO(2, 1);
+            }
+        }
+
+        if (field[0][2].equals("X") && field[2][0].equals("+")) {
+            if (field[1][0].equals("+")) {
+                return setO(1, 0);
+            }
+            if (field[1][2].equals("+")) {
+                return setO(2, 1);
+            }
+        }
+
+        if (field[2][2].equals("X") && field[0][0].equals("+")) {
+            if (field[0][1].equals("+")) {
+                return setO(0, 1);
+            }
+            if (field[1][0].equals("+")) {
+                return setO(1, 0);
+            }
+        }
+
+        if (field[2][0].equals("X") && field[0][2].equals("+")) {
+            if (field[0][1].equals("+")) {
+                return setO(0, 1);
+            }
+            if (field[1][2].equals("+")) {
+                return setO(1, 2);
             }
         }
         return false;
@@ -622,7 +659,7 @@ public class Board {
     }
 
     public boolean setO(int j, int i) {
-        if (field[j][i].equals("+") && !full_Line) {
+        if (field[j][i].equals("+") && !full_Line && is_step_possible) {
             field[j][i] = "O";
             is_step_possible = false;
             return true;
