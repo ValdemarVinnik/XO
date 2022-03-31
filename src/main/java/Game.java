@@ -1,9 +1,7 @@
-import java.io.IOException;
-import java.util.Scanner;
 
 public class Game {
     public static Game game;
-    private boolean aLive;
+    public Status status;
     public Board board;
     public boolean isEnd = false;
 
@@ -22,10 +20,12 @@ public class Game {
 
     public void restartGame(){
         board.restart();
-        //this.aLive = true;
+        status = Status.BEGIN;
     }
 
     public void drawX(int i) {
+        if (status == Status.BEGIN) return;
+
         switch (i) {
             case 1:
                 board.setX(0, 0);

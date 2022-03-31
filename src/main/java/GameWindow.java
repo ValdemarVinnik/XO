@@ -18,6 +18,8 @@ public class GameWindow extends JFrame {
     private static Image red_column;
     private static Image red_diagonal;
     private static Image red_main_diagonal;
+    private static Image hand;
+    private static Image coin;
     private static JDialog try_again_dialog;
     private String title_message;
 
@@ -31,6 +33,10 @@ public class GameWindow extends JFrame {
         field = ImageIO.read(GameWindow.class.getResourceAsStream("fild.png"));
         o = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
         x = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
+
+        hand = ImageIO.read(GameWindow.class.getResourceAsStream("hand.jpg"));
+        coin = ImageIO.read(GameWindow.class.getResourceAsStream("coin.jpg"));
+
         red_line = ImageIO.read(GameWindow.class.getResourceAsStream("red_line.png"));
         red_column = ImageIO.read(GameWindow.class.getResourceAsStream("red_column.png"));
         red_diagonal = ImageIO.read(GameWindow.class.getResourceAsStream("diagonal.png"));
@@ -128,9 +134,7 @@ public class GameWindow extends JFrame {
         end_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Game.getInstance().isEnd = false;
-               //dialog.dispose();
                 Runtime.getRuntime().exit(0);
-               // System.exit(1);
             }
         });
 
@@ -158,11 +162,23 @@ public class GameWindow extends JFrame {
 
     private static void onRepaint(Graphics g) {
 
-        String[][] matrix = Game.getInstance().board.getField();
-        //  String[][] matrix = new String[][]{{"O","X","+"},{"X","O","X"},{"X","X","O"},};
         g.drawImage(background, 0, 0, null);
         g.drawImage(field, 200, 30, null);
 
+        game_window.printField(g);
+
+        if (!Game.getInstance().getAlive()) { game_window.drawRedLine(g);}
+
+        if (game_window.title_message != null) {
+            game_window.setTitle(game_window.title_message);
+        }
+        if (!Game.getInstance().getAlive() || Game.getInstance().board.isFull()) {
+            try_again_dialog.setVisible(true);
+        }
+    }
+
+    public void printField(Graphics g){
+        String[][] matrix = Game.getInstance().board.getField();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 if (matrix[j][i].equals("X")) {
@@ -173,36 +189,28 @@ public class GameWindow extends JFrame {
                 }
             }
         }
+    }
 
-        if (!Game.getInstance().getAlive()) {
-            int line_winner = Game.getInstance().board.getLine_winner();
-            if (line_winner > 0 && line_winner < 4) {
-                g.drawImage(red_line, 240, 80 + (100 * (line_winner - 1)), null);
-            }
-//        g.drawImage(red_line, 240, 80, null);
-//        g.drawImage(red_line, 240, 180, null);
-//        g.drawImage(red_line, 240, 280, null);
-
-            if (line_winner > 3 && line_winner < 7) {
-                g.drawImage(red_column, 240 + (100 * (line_winner - 4)), 80, null);
-            }
-//        g.drawImage(red_column, 240, 50, null);
-//        g.drawImage(red_column, 340, 50, null);
-//        g.drawImage(red_column, 440, 50, null);
-            if (line_winner == 7) {
-                g.drawImage(red_main_diagonal, 210, 50, null);
-            }
-            if (line_winner == 8) {
-                g.drawImage(red_diagonal, 240, 50, null);
-            }
+    public void drawRedLine(Graphics g){
+        int line_winner = Game.getInstance().board.getLine_winner();
+        if (line_winner > 0 && line_winner < 4) {
+            g.drawImage(red_line, 240, 80 + (100 * (line_winner - 1)), null);
         }
 
-        if (game_window.title_message != null) {
-            game_window.setTitle(game_window.title_message);
+        if (line_winner > 3 && line_winner < 7) {
+            g.drawImage(red_column, 240 + (100 * (line_winner - 4)), 80, null);
         }
-        if (!Game.getInstance().getAlive() || Game.getInstance().board.isFull()) {
-            try_again_dialog.setVisible(true);
+
+        if (line_winner == 7) {
+            g.drawImage(red_main_diagonal, 210, 50, null);
         }
+        if (line_winner == 8) {
+            g.drawImage(red_diagonal, 240, 50, null);
+        }
+    }
+
+    public void defineQueue(Graphics g){
+        g.drawImage(hand, 240, 50, null);
     }
 
     public void run() throws InterruptedException {
@@ -216,33 +224,19 @@ public class GameWindow extends JFrame {
 
                 if (Game.getInstance().board.somebodyWin() && Game.getInstance().board.getIs_X_win()) {
                     setTitleMessage("You win!!!");
-                    System.out.println("x "+ Game.getInstance().board.getIs_X_win());
-                    System.out.println("o " + Game.getInstance().board.getIs_O_win());
-                    System.out.println(Game.getInstance().board.getLine_winner());
-                    break;
+                                       break;
                 }
 
                 if (Game.getInstance().board.somebodyWin() && Game.getInstance().board.getIs_O_win()) {
                     setTitleMessage("You wOn!!!");
-                    System.out.println("x "+ Game.getInstance().board.getIs_X_win());
-                    System.out.println("o " + Game.getInstance().board.getIs_O_win());
-                    System.out.println(Game.getInstance().board.getLine_winner());
                     break;
 
                 }
 
                 if (Game.getInstance().board.isFull()) {
                     setTitleMessage("Nobody wins...");
-                    System.out.println("x "+ Game.getInstance().board.getIs_X_win());
-                    System.out.println("o " + Game.getInstance().board.getIs_O_win());
-                    System.out.println(Game.getInstance().board.getLine_winner());
                     break;
                 }
-
-//                if (Game.getInstance().board.isFull()) {
-//                    setTitleMessage("Nobody wins...");
-//                    break;
-//                }
 
             }
 
