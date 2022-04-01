@@ -26,7 +26,7 @@ public class Board {
         return this.field;
     }
 
-    public void restart(){
+    public void restart() {
         field = new String[][]{{"+", "+", "+"}, {"+", "+", "+"}, {"+", "+", "+"}};
         is_step_possible = false;
         full_Line = false;
@@ -56,34 +56,108 @@ public class Board {
         return true;
     }
 
-    public void analysisO() {
-        if (!is_step_possible) return;
-        if (!opportunityForSuccessO() & !repelTheThreatX() & !mainStrategy()) {
-
-             if (field[1][2].equals("+") && !field[1][1].equals("X"))
-                setO(1,2);
-            else if (field[2][1].equals("+")&& !field[1][1].equals("X"))
-                setO(2,1);
-            else if (field[1][0].equals("+") && !field[1][1].equals("X"))
-                setO(1, 0);
-             else if (field[0][1].equals("+") && !field[1][1].equals("X"))
-                 setO(0, 1);
-            else if (field[1][1].equals("+"))
-                setO(1, 1);
-            if (field[0][0].equals("+"))
-                setO(0, 0);
-            else if (field[2][2].equals("+"))
-                setO(2, 2);
-            else if (field[2][0].equals("+"))
-                setO(2, 0);
-
-
-
+    public boolean isEmpty() {
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field.length; j++) {
+                if (!field[j][i].equals("+")) {
+                    return false;
+                }
+            }
         }
+        return true;
+
+    }
+
+//    public void analysisProtection() {
+//        if (!is_step_possible) return;
+//        if (!opportunityForSuccessO() & !repelTheThreatX() & !mainStrategy()) {
+//
+//            if (field[1][2].equals("+") && !field[1][1].equals("X"))
+//                setO(1, 2);
+//            else if (field[2][1].equals("+") && !field[1][1].equals("X"))
+//                setO(2, 1);
+//            else if (field[1][0].equals("+") && !field[1][1].equals("X"))
+//                setO(1, 0);
+//            else if (field[0][1].equals("+") && !field[1][1].equals("X"))
+//                setO(0, 1);
+//            else if (field[1][1].equals("+"))
+//                setO(1, 1);
+//            if (field[0][0].equals("+"))
+//                setO(0, 0);
+//            else if (field[2][2].equals("+"))
+//                setO(2, 2);
+//            else if (field[2][0].equals("+"))
+//                setO(2, 0);
+//
+//
+//        }
+//    }
+
+    public void simpleMove() {
+
+        if (field[1][2].equals("+") && !field[1][1].equals("X"))
+            setO(1, 2);
+        else if (field[2][1].equals("+") && !field[1][1].equals("X"))
+            setO(2, 1);
+        else if (field[1][0].equals("+") && !field[1][1].equals("X"))
+            setO(1, 0);
+        else if (field[0][1].equals("+") && !field[1][1].equals("X"))
+            setO(0, 1);
+        else if (field[1][1].equals("+"))
+            setO(1, 1);
+        if (field[0][0].equals("+"))
+            setO(0, 0);
+        else if (field[2][2].equals("+"))
+            setO(2, 2);
+        else if (field[2][0].equals("+"))
+            setO(2, 0);
+
+    }
+
+    protected boolean firstAttackWay() {
+
+        if (field[1][1].equals("+")) {
+            return setO(1, 1);
+        } else if (field[2][2].equals("+") && field[2][1].equals("+")) {
+            return setO(2, 2);
+        }else if (field[0][0].equals("+") && field[1][0].equals("+")) {
+            return setO(0, 0);}
+        return false;
+    }
+
+    protected boolean secondAttackWay() {
+
+        if (field[1][1].equals("+")) {
+            return setO(1, 1);
+        }
+        return false;
+    }
+
+    protected boolean thirdAttackWay() {
+
+        if (field[0][2].equals("+")) {
+            return setO(0, 2);
+        }
+        return false;
+    }
+
+    protected boolean fourthAttackWay(){
+
+        if (field[0][0].equals("+")){
+            return setO(0,0);
+        }else if (field[2][2].equals("+")){
+            return setO(2,2);
+        }
+        return false;
+    }
+
+    protected boolean fifthAttackWay(){
+        simpleMove();
+        return false;
     }
 
 
-    private boolean repelTheThreatX() {
+    protected boolean repelTheThreatX() {
         // 1-й ряд
         int countX = 0;
         for (int j = 0; j < field.length; j++) {
@@ -222,64 +296,26 @@ public class Board {
         return false;
     }
 
-//    private boolean mainStrategy() {
-//        if (field[0][0].equals("X") && field[2][2].equals("+")) {
-//            if (field[1][2].equals("+")) {
-//                return setO(1, 2);
-//            }
-//            if (field[2][1].equals("+")) {
-//                return setO(2, 1);
-//            }
-//        }
-//
-//        if (field[0][2].equals("X") && field[2][0].equals("+")) {
-//            if (field[1][0].equals("+")) {
-//                return setO(1, 0);
-//            }
-//            if (field[1][2].equals("+")) {
-//                return setO(2, 1);
-//            }
-//        }
-//
-//        if (field[2][2].equals("X") && field[0][0].equals("+")) {
-//            if (field[0][1].equals("+")) {
-//                return setO(0, 1);
-//            }
-//            if (field[1][0].equals("+")) {
-//                return setO(1, 0);
-//            }
-//        }
-//
-//        if (field[2][0].equals("X") && field[0][2].equals("+")) {
-//            if (field[0][1].equals("+")) {
-//                return setO(0, 1);
-//            }
-//            if (field[1][2].equals("+")) {
-//                return setO(1, 2);
-//            }
-//        }
-//        return false;
-//    }
-private boolean mainStrategy() {
-    if (field[0][0].equals("X") && field[2][2].equals("+")) {
-        return setO(1,1);
+    protected boolean mainStrategy() {
+        if (field[0][0].equals("X") && field[2][2].equals("+")) {
+            return setO(1, 1);
+        }
+
+        if (field[0][2].equals("X") && field[2][0].equals("+")) {
+            return setO(1, 1);
+        }
+
+        if (field[2][2].equals("X") && field[0][0].equals("+")) {
+            return setO(1, 1);
+        }
+
+        if (field[2][0].equals("X") && field[0][2].equals("+")) {
+            return setO(1, 1);
+        }
+        return false;
     }
 
-    if (field[0][2].equals("X") && field[2][0].equals("+")) {
-        return setO(1,1);
-    }
-
-    if (field[2][2].equals("X") && field[0][0].equals("+")) {
-        return setO(1,1);
-    }
-
-    if (field[2][0].equals("X") && field[0][2].equals("+")) {
-        return setO(1,1);
-    }
-    return false;
-}
-
-    private boolean opportunityForSuccessO() {
+    protected boolean opportunityForSuccessO() {
         // 1-й ряд
         int countO = 0;
         int countPlus = 0;

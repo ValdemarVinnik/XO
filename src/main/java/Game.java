@@ -6,20 +6,20 @@ public class Game {
     public Coin coin;
     public boolean isEnd = false;
 
-    public static Game getInstance(){
-        return game == null? game = new Game(): game;
+    public static Game getInstance() {
+        return game == null ? game = new Game() : game;
     }
 
-    public boolean getAlive(){
+    public boolean getAlive() {
 
         return !this.board.isFull_Line();
     }
 
-    private Game(){
+    private Game() {
         this.board = new Board();
     }
 
-    public void restartGame(){
+    public void restartGame() {
         board.restart();
         status = Status.BEGIN;
     }
@@ -55,6 +55,80 @@ public class Game {
             case 9:
                 board.setX(2, 2);
                 break;
+        }
+    }
+
+    public void analysisProtection() {
+
+        if (!board.is_step_possible) return;
+
+        if (!board.opportunityForSuccessO() & !board.repelTheThreatX() & !board.mainStrategy()) {
+            board.simpleMove();
+        }
+
+    }
+
+    public void analysisAttack() {
+
+        if (board.getField()[2][0].equals("+")) {
+            board.is_step_possible = true;
+            board.setO(2, 0);
+
+            return;
+        }
+        if (status == Status.ATTACK){
+            determineAttackStatus();
+        }
+
+            if (!board.is_step_possible) return;
+
+        if (!board.opportunityForSuccessO() & !board.repelTheThreatX()) {
+            switch (status) {
+                case FIRST_ATTACK_WAY:
+                    board.firstAttackWay();
+                    break;
+                case SECOND_ATTACK_WAY:
+                    board.secondAttackWay();
+                    break;
+                case THIRD_ATTACK_WAY:
+                    board.thirdAttackWay();
+                    break;
+                case FOURTH_ATTACK_WAY:
+                    board.fourthAttackWay();
+                    break;
+                case FIFTH_ATTACK_WAY:
+                    board.fifthAttackWay();
+            }
+        }
+
+    }
+
+    public void determineAttackStatus() {
+
+        String[][] field = board.getField();
+
+        if (field[1][0].equals("X") || field[2][1].equals("X")) {
+            status = Status.FIRST_ATTACK_WAY;
+            return;
+        }
+
+        if (field[0][1].equals("X") || field[1][2].equals("X")) {
+            status = Status.SECOND_ATTACK_WAY;
+            return;
+        }
+
+        if (field[0][0].equals("X") || field[2][2].equals("X")) {
+            status = Status.THIRD_ATTACK_WAY;
+            return;
+        }
+
+        if (field[0][2].equals("X")) {
+            status = Status.FOURTH_ATTACK_WAY;
+            return;
+        }
+
+        if (field[1][1].equals("X")) {
+            status = Status.FIFTH_ATTACK_WAY;
         }
     }
 }

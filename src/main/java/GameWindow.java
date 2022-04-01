@@ -10,6 +10,7 @@ import java.util.Random;
 
 public class GameWindow extends JFrame {
     private static GameWindow game_window;
+    private static Game game = Game.getInstance();
 
     private static Image background;
     private static Image field;
@@ -40,9 +41,9 @@ public class GameWindow extends JFrame {
         o = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
         x = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
 
-        hand = ImageIO.read(GameWindow.class.getResourceAsStream("hand.jpg"));
-        avers = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
-        revers = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
+        hand = ImageIO.read(GameWindow.class.getResourceAsStream("hand.png"));
+        avers = ImageIO.read(GameWindow.class.getResourceAsStream("avers.png"));
+        revers = ImageIO.read(GameWindow.class.getResourceAsStream("revers.png"));
 
         red_line = ImageIO.read(GameWindow.class.getResourceAsStream("red_line.png"));
         red_column = ImageIO.read(GameWindow.class.getResourceAsStream("red_column.png"));
@@ -79,35 +80,35 @@ public class GameWindow extends JFrame {
 
                 if (y > 60 && y < 160) {
                     if (x > 220 && x < 320) {
-                        Game.getInstance().drawX(1);
+                        game.drawX(1);
                     }
                     if (x > 320 && x < 420) {
-                        Game.getInstance().drawX(2);
+                        game.drawX(2);
                     }
                     if (x > 420 && x < 520) {
-                        Game.getInstance().drawX(3);
+                        game.drawX(3);
                     }
                 }
                 if (y > 160 && y < 260) {
                     if (x > 220 && x < 320) {
-                        Game.getInstance().drawX(4);
+                        game.drawX(4);
                     }
                     if (x > 320 && x < 420) {
-                        Game.getInstance().drawX(5);
+                        game.drawX(5);
                     }
                     if (x > 420 && x < 520) {
-                        Game.getInstance().drawX(6);
+                        game.drawX(6);
                     }
                 }
                 if (y > 260 && y < 360) {
                     if (x > 220 && x < 320) {
-                        Game.getInstance().drawX(7);
+                        game.drawX(7);
                     }
                     if (x > 320 && x < 420) {
-                        Game.getInstance().drawX(8);
+                        game.drawX(8);
                     }
                     if (x > 420 && x < 520) {
-                        Game.getInstance().drawX(9);
+                        game.drawX(9);
                     }
                 }
 
@@ -131,12 +132,13 @@ public class GameWindow extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
 
-                Game.getInstance().restartGame();
+                game.restartGame();
                 try_again_dialog.setVisible(false);
                 game_window.setTitleMessage("Game XO");
 
             }
         });
+
         try_again_button.setVisible(true);
 
         Button end_button = new Button("end");
@@ -148,8 +150,6 @@ public class GameWindow extends JFrame {
         });
 
         end_button.setVisible(true);
-
-
         container.add(try_again_button);
         container.add(end_button);
         dialog.setSize(200, 100);
@@ -170,11 +170,10 @@ public class GameWindow extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
 
-                Game game = Game.getInstance();
                 define_queue_dialog.setVisible(false);
                 game.status = Status.DEFINE_A_QUEUE;
                 game.coin = (new Random().nextBoolean()) ? Coin.AVERS : Coin.REVERS;
-
+               // game.coin = Coin.REVERS;
             }
         });
         toss_acoin_button.setVisible(true);
@@ -201,8 +200,6 @@ public class GameWindow extends JFrame {
                 Game game = Game.getInstance();
                 define_queue_dialog_final.setVisible(false);
                 game.status = (game.coin == Coin.AVERS) ? Status.ATTACK : Status.PROTECTION;
-                //game.coin = (new Random().nextBoolean()) ? Coin.AVERS : Coin.REVERS;
-
             }
         });
         continue_button.setVisible(true);
@@ -229,29 +226,29 @@ public class GameWindow extends JFrame {
 
         g.drawImage(background, 0, 0, null);
 
-        if (Game.getInstance().status == Status.BEGIN) {
+        if (game.status == Status.BEGIN) {
             game_window.defineQueue(g);
-        } else if (Game.getInstance().status == Status.DEFINE_A_QUEUE) {
+        } else if (game.status == Status.DEFINE_A_QUEUE) {
             game_window.printCoin(g);
         } else {
             game_window.printField(g);
         }
 
-        if (!Game.getInstance().getAlive()) {
+        if (!game.getAlive()) {
             game_window.drawRedLine(g);
         }
 
         if (game_window.title_message != null) {
             game_window.setTitle(game_window.title_message);
         }
-        if (!Game.getInstance().getAlive() || Game.getInstance().board.isFull()) {
+        if (!game.getAlive() || game.board.isFull()) {
             try_again_dialog.setVisible(true);
         }
     }
 
-    public void printField(Graphics g){
+    public void printField(Graphics g) {
         g.drawImage(field, 200, 30, null);
-        String[][] matrix = Game.getInstance().board.getField();
+        String[][] matrix = game.board.getField();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 if (matrix[j][i].equals("X")) {
@@ -266,12 +263,12 @@ public class GameWindow extends JFrame {
 
     public void printCoin(Graphics g) {
         define_queue_dialog_final.setVisible(true);
-        if (Game.getInstance().coin == Coin.AVERS) {
-            g.drawImage(avers, 240, 50, null);
+        if (game.coin == Coin.AVERS) {
+            g.drawImage(avers, 280, 100, null);
         }
 
-        if (Game.getInstance().coin == Coin.REVERS) {
-            g.drawImage(revers, 240, 50, null);
+        if (game.coin == Coin.REVERS) {
+            g.drawImage(revers, 280, 100, null);
         }
     }
 
@@ -293,39 +290,77 @@ public class GameWindow extends JFrame {
         }
     }
 
-    public void defineQueue(Graphics g){
-        g.drawImage(hand, 240, 50, null);
+    public void defineQueue(Graphics g) {
+        g.drawImage(hand, 260, 50, null);
         define_queue_dialog.setVisible(true);
     }
 
-    public void run() throws InterruptedException {
+    public void run() {
 
-        while (!Game.getInstance().isEnd) {
+        while (!game.isEnd) {
+              System.out.checkError();// без взбадривания System.out - не видит статуса.
+
+            if (game.status == Status.PROTECTION) {
+                protectedRun();
+            }
+
+            if (game.status == Status.ATTACK) {
+                attackRun();
+            }
+        }
+    }
+
+    private void protectedRun() {
 
 
-            while (Game.getInstance().getAlive() && !Game.getInstance().board.isFull()) {
+        while (game.getAlive() && !game.board.isFull()) {
 
-                Game.getInstance().board.analysisO();
+            game.analysisProtection();
 
-                if (Game.getInstance().board.somebodyWin() && Game.getInstance().board.getIs_X_win()) {
-                    setTitleMessage("You win!!!");
-                                       break;
-                }
+            if (game.board.somebodyWin() && game.board.getIs_X_win()) {
+                setTitleMessage("You win!!!");
+                break;
+            }
 
-                if (Game.getInstance().board.somebodyWin() && Game.getInstance().board.getIs_O_win()) {
-                    setTitleMessage("You wOn!!!");
-                    break;
-
-                }
-
-                if (Game.getInstance().board.isFull()) {
-                    setTitleMessage("Nobody wins...");
-                    break;
-                }
+            if (game.board.somebodyWin() && game.board.getIs_O_win()) {
+                setTitleMessage("You wOn!!!");
+                break;
 
             }
 
+            if (game.board.isFull()) {
+                setTitleMessage("Nobody wins...");
+                break;
+            }
+
         }
+
+    }
+
+    private void attackRun() {
+
+        while (game.getAlive() && !game.board.isFull()) {
+
+            game.analysisAttack();
+
+            if (game.board.somebodyWin() && game.board.getIs_X_win()) {
+                setTitleMessage("You win!!!");
+                break;
+            }
+
+            if (game.board.somebodyWin() && game.board.getIs_O_win()) {
+                setTitleMessage("You wOn!!!");
+                break;
+
+            }
+
+            if (Game.getInstance().board.isFull()) {
+                setTitleMessage("Nobody wins...");
+                break;
+            }
+
+        }
+
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
