@@ -1,8 +1,9 @@
 
 public class Game {
     public static Game game;
-    public Status status;
+    public Status status = Status.BEGIN;
     public Board board;
+    public Coin coin;
     public boolean isEnd = false;
 
     public static Game getInstance(){

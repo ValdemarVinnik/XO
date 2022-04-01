@@ -1,6 +1,6 @@
 public enum Status {
 
-    BEGIN, ATTACK, PROTECTION;
+    BEGIN, DEFINE_A_QUEUE, ATTACK, PROTECTION;
 
 
 }

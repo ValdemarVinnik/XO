@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Random;
 
 public class GameWindow extends JFrame {
     private static GameWindow game_window;
@@ -19,8 +20,13 @@ public class GameWindow extends JFrame {
     private static Image red_diagonal;
     private static Image red_main_diagonal;
     private static Image hand;
-    private static Image coin;
+    private static Image avers;
+    private static Image revers;
+
     private static JDialog try_again_dialog;
+    private static JDialog define_queue_dialog;
+    private static JDialog define_queue_dialog_final;
+
     private String title_message;
 
 
@@ -35,13 +41,16 @@ public class GameWindow extends JFrame {
         x = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
 
         hand = ImageIO.read(GameWindow.class.getResourceAsStream("hand.jpg"));
-        coin = ImageIO.read(GameWindow.class.getResourceAsStream("coin.jpg"));
+        avers = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
+        revers = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
 
         red_line = ImageIO.read(GameWindow.class.getResourceAsStream("red_line.png"));
         red_column = ImageIO.read(GameWindow.class.getResourceAsStream("red_column.png"));
         red_diagonal = ImageIO.read(GameWindow.class.getResourceAsStream("diagonal.png"));
         red_main_diagonal = ImageIO.read(GameWindow.class.getResourceAsStream("main_diagonal.png"));
         try_again_dialog = GameWindow.getTryAgainDialog();
+        define_queue_dialog = GameWindow.getDefineQueueDialog();
+        define_queue_dialog_final = GameWindow.getDefineQueueDialogFinal();
 
     }
 
@@ -147,6 +156,62 @@ public class GameWindow extends JFrame {
         return dialog;
     }
 
+    private static JDialog getDefineQueueDialog() {
+        final JDialog dialog = new JDialog();
+        dialog.setLocation(200, 300);
+
+        // Панель содержимого
+        Container container = dialog.getContentPane();
+        // Устанавливаем менеджер последовательного расположения
+        container.setLayout(new FlowLayout());
+
+        Button toss_acoin_button = new Button("Toss a coin...");
+        toss_acoin_button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                Game game = Game.getInstance();
+                define_queue_dialog.setVisible(false);
+                game.status = Status.DEFINE_A_QUEUE;
+                game.coin = (new Random().nextBoolean()) ? Coin.AVERS : Coin.REVERS;
+
+            }
+        });
+        toss_acoin_button.setVisible(true);
+        container.add(toss_acoin_button);
+
+        dialog.setSize(200, 100);
+        return dialog;
+    }
+
+    private static JDialog getDefineQueueDialogFinal() {
+        final JDialog dialog = new JDialog();
+        dialog.setLocation(200, 300);
+
+        // Панель содержимого
+        Container container = dialog.getContentPane();
+        // Устанавливаем менеджер последовательного расположения
+        container.setLayout(new FlowLayout());
+
+        Button continue_button = new Button("Continue");
+        continue_button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                Game game = Game.getInstance();
+                define_queue_dialog_final.setVisible(false);
+                game.status = (game.coin == Coin.AVERS) ? Status.ATTACK : Status.PROTECTION;
+                //game.coin = (new Random().nextBoolean()) ? Coin.AVERS : Coin.REVERS;
+
+            }
+        });
+        continue_button.setVisible(true);
+        container.add(continue_button);
+
+        dialog.setSize(200, 100);
+        return dialog;
+    }
+
     public void setTitleMessage(String message) {
         title_message = message;
     }
@@ -163,11 +228,18 @@ public class GameWindow extends JFrame {
     private static void onRepaint(Graphics g) {
 
         g.drawImage(background, 0, 0, null);
-        g.drawImage(field, 200, 30, null);
 
-        game_window.printField(g);
+        if (Game.getInstance().status == Status.BEGIN) {
+            game_window.defineQueue(g);
+        } else if (Game.getInstance().status == Status.DEFINE_A_QUEUE) {
+            game_window.printCoin(g);
+        } else {
+            game_window.printField(g);
+        }
 
-        if (!Game.getInstance().getAlive()) { game_window.drawRedLine(g);}
+        if (!Game.getInstance().getAlive()) {
+            game_window.drawRedLine(g);
+        }
 
         if (game_window.title_message != null) {
             game_window.setTitle(game_window.title_message);
@@ -178,6 +250,7 @@ public class GameWindow extends JFrame {
     }
 
     public void printField(Graphics g){
+        g.drawImage(field, 200, 30, null);
         String[][] matrix = Game.getInstance().board.getField();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -191,7 +264,18 @@ public class GameWindow extends JFrame {
         }
     }
 
-    public void drawRedLine(Graphics g){
+    public void printCoin(Graphics g) {
+        define_queue_dialog_final.setVisible(true);
+        if (Game.getInstance().coin == Coin.AVERS) {
+            g.drawImage(avers, 240, 50, null);
+        }
+
+        if (Game.getInstance().coin == Coin.REVERS) {
+            g.drawImage(revers, 240, 50, null);
+        }
+    }
+
+    public void drawRedLine(Graphics g) {
         int line_winner = Game.getInstance().board.getLine_winner();
         if (line_winner > 0 && line_winner < 4) {
             g.drawImage(red_line, 240, 80 + (100 * (line_winner - 1)), null);
@@ -211,6 +295,7 @@ public class GameWindow extends JFrame {
 
     public void defineQueue(Graphics g){
         g.drawImage(hand, 240, 50, null);
+        define_queue_dialog.setVisible(true);
     }
 
     public void run() throws InterruptedException {
