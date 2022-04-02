@@ -68,34 +68,12 @@ public class Board {
 
     }
 
-//    public void analysisProtection() {
-//        if (!is_step_possible) return;
-//        if (!opportunityForSuccessO() & !repelTheThreatX() & !mainStrategy()) {
-//
-//            if (field[1][2].equals("+") && !field[1][1].equals("X"))
-//                setO(1, 2);
-//            else if (field[2][1].equals("+") && !field[1][1].equals("X"))
-//                setO(2, 1);
-//            else if (field[1][0].equals("+") && !field[1][1].equals("X"))
-//                setO(1, 0);
-//            else if (field[0][1].equals("+") && !field[1][1].equals("X"))
-//                setO(0, 1);
-//            else if (field[1][1].equals("+"))
-//                setO(1, 1);
-//            if (field[0][0].equals("+"))
-//                setO(0, 0);
-//            else if (field[2][2].equals("+"))
-//                setO(2, 2);
-//            else if (field[2][0].equals("+"))
-//                setO(2, 0);
-//
-//
-//        }
-//    }
 
     public void simpleMove() {
 
-        if (field[1][2].equals("+") && !field[1][1].equals("X"))
+        if (field[1][1].equals("+"))
+            setO(1, 1);
+        else if (field[1][2].equals("+") && !field[1][1].equals("X"))
             setO(1, 2);
         else if (field[2][1].equals("+") && !field[1][1].equals("X"))
             setO(2, 1);
@@ -103,9 +81,7 @@ public class Board {
             setO(1, 0);
         else if (field[0][1].equals("+") && !field[1][1].equals("X"))
             setO(0, 1);
-        else if (field[1][1].equals("+"))
-            setO(1, 1);
-        if (field[0][0].equals("+"))
+        else if (field[0][0].equals("+"))
             setO(0, 0);
         else if (field[2][2].equals("+"))
             setO(2, 2);

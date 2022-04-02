@@ -22,10 +22,11 @@ public class Game {
     public void restartGame() {
         board.restart();
         status = Status.BEGIN;
+        coin = null;
     }
 
     public void drawX(int i) {
-        if (status == Status.BEGIN) return;
+        if (status == Status.BEGIN && status == Status.ATTACK && status == Status.DEFINE_A_QUEUE) return;
 
         switch (i) {
             case 1:
@@ -71,7 +72,7 @@ public class Game {
     public void analysisAttack() {
 
         if (board.getField()[2][0].equals("+")) {
-            board.is_step_possible = true;
+            //board.is_step_possible = true;
             board.setO(2, 0);
 
             return;

@@ -11,6 +11,7 @@ import java.util.Random;
 public class GameWindow extends JFrame {
     private static GameWindow game_window;
     private static Game game = Game.getInstance();
+    private static Random random = new Random();
 
     private static Image background;
     private static Image field;
@@ -37,7 +38,7 @@ public class GameWindow extends JFrame {
 
     private GameWindow() throws IOException {
         background = ImageIO.read(GameWindow.class.getResourceAsStream("list.png"));
-        field = ImageIO.read(GameWindow.class.getResourceAsStream("fild.png"));
+        field = ImageIO.read(GameWindow.class.getResourceAsStream("field.png"));
         o = ImageIO.read(GameWindow.class.getResourceAsStream("o.png"));
         x = ImageIO.read(GameWindow.class.getResourceAsStream("x.png"));
 
@@ -132,6 +133,7 @@ public class GameWindow extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
 
+                Runtime.getRuntime().gc();
                 game.restartGame();
                 try_again_dialog.setVisible(false);
                 game_window.setTitleMessage("Game XO");
@@ -172,8 +174,8 @@ public class GameWindow extends JFrame {
 
                 define_queue_dialog.setVisible(false);
                 game.status = Status.DEFINE_A_QUEUE;
-                game.coin = (new Random().nextBoolean()) ? Coin.AVERS : Coin.REVERS;
-               // game.coin = Coin.REVERS;
+                game.coin = (random.nextBoolean()) ? Coin.REVERS : Coin.AVERS;
+
             }
         });
         toss_acoin_button.setVisible(true);
@@ -199,7 +201,15 @@ public class GameWindow extends JFrame {
 
                 Game game = Game.getInstance();
                 define_queue_dialog_final.setVisible(false);
-                game.status = (game.coin == Coin.AVERS) ? Status.ATTACK : Status.PROTECTION;
+
+                if (game.coin == Coin.AVERS) {
+                    game.status = Status.ATTACK;
+                    game.board.is_step_possible = true;
+                } else {
+                    game.status = Status.PROTECTION;
+                }
+
+
             }
         });
         continue_button.setVisible(true);
@@ -263,6 +273,9 @@ public class GameWindow extends JFrame {
 
     public void printCoin(Graphics g) {
         define_queue_dialog_final.setVisible(true);
+        String title = (game.coin == Coin.REVERS) ? "You will be the first..." : "I'll be the first...";
+        define_queue_dialog_final.setTitle(title);
+
         if (game.coin == Coin.AVERS) {
             g.drawImage(avers, 280, 100, null);
         }
@@ -298,7 +311,7 @@ public class GameWindow extends JFrame {
     public void run() {
 
         while (!game.isEnd) {
-              System.out.checkError();// без взбадривания System.out - не видит статуса.
+            System.out.checkError();// без взбадривания System.out - не видит статуса.
 
             if (game.status == Status.PROTECTION) {
                 protectedRun();
