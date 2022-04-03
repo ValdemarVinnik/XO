@@ -87,6 +87,8 @@ public class Board {
             setO(2, 2);
         else if (field[2][0].equals("+"))
             setO(2, 0);
+        else if (field[0][2].equals("+"))
+            setO(0, 2);
 
     }
 
@@ -453,7 +455,7 @@ public class Board {
             if (field[j][field.length - (j + 1)].equals("O")) {
                 countO++;
             }
-            if (field[j][j].equals("O")) {
+            if (field[j][field.length - (j + 1)].equals("+")) {
                 countPlus++;
             }
         }

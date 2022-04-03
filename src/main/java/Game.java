@@ -72,11 +72,11 @@ public class Game {
     public void analysisAttack() {
 
         if (board.getField()[2][0].equals("+")) {
-            //board.is_step_possible = true;
-            board.setO(2, 0);
 
+            board.setO(2, 0);
             return;
         }
+
         if (status == Status.ATTACK){
             determineAttackStatus();
         }

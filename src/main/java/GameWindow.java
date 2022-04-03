@@ -31,7 +31,6 @@ public class GameWindow extends JFrame {
 
     private String title_message;
 
-
     public static GameWindow getInstance() throws IOException {
         return game_window == null ? game_window = new GameWindow() : game_window;
     }
@@ -113,7 +112,6 @@ public class GameWindow extends JFrame {
                     }
                 }
 
-
             }
         });
         return gameField;
@@ -176,6 +174,7 @@ public class GameWindow extends JFrame {
                 game.status = Status.DEFINE_A_QUEUE;
                 game.coin = (random.nextBoolean()) ? Coin.REVERS : Coin.AVERS;
 
+
             }
         });
         toss_acoin_button.setVisible(true);
@@ -228,6 +227,11 @@ public class GameWindow extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             onRepaint(g);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             repaint();
         }
     }
