@@ -1,3 +1,4 @@
+import java.io.File;
 
 public class Game {
     public static Game game;
@@ -5,6 +6,10 @@ public class Game {
     public Board board;
     public Coin coin;
     public boolean isEnd = false;
+
+    public static final Sound coin_sound = new Sound (new File("src/main/resources/coin.wav"));
+    public static final Sound draw_line_sound = new Sound (new File("src/main/resources/drawLine.wav"));
+    public static final Sound roscherk_sound = new Sound (new File("src/main/resources/roscherk.wav"));
 
     public static Game getInstance() {
         return game == null ? game = new Game() : game;

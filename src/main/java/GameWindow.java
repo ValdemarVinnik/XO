@@ -29,7 +29,9 @@ public class GameWindow extends JFrame {
     private static JDialog define_queue_dialog;
     private static JDialog define_queue_dialog_final;
 
+
     private String title_message;
+
 
     public static GameWindow getInstance() throws IOException {
         return game_window == null ? game_window = new GameWindow() : game_window;
@@ -170,6 +172,7 @@ public class GameWindow extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
 
+                game.coin_sound.play();
                 define_queue_dialog.setVisible(false);
                 game.status = Status.DEFINE_A_QUEUE;
                 game.coin = (random.nextBoolean()) ? Coin.REVERS : Coin.AVERS;
@@ -242,9 +245,10 @@ public class GameWindow extends JFrame {
 
         if (game.status == Status.BEGIN) {
             game_window.defineQueue(g);
-        } else if (game.status == Status.DEFINE_A_QUEUE) {
+        } else if (game.status == Status.DEFINE_A_QUEUE && !Game.coin_sound.isPlaying()) {
+
             game_window.printCoin(g);
-        } else {
+        } else if (game.status != Status.DEFINE_A_QUEUE) {
             game_window.printField(g);
         }
 
@@ -290,6 +294,7 @@ public class GameWindow extends JFrame {
     }
 
     public void drawRedLine(Graphics g) {
+
         int line_winner = Game.getInstance().board.getLine_winner();
         if (line_winner > 0 && line_winner < 4) {
             g.drawImage(red_line, 240, 80 + (100 * (line_winner - 1)), null);
@@ -336,11 +341,13 @@ public class GameWindow extends JFrame {
 
             if (game.board.somebodyWin() && game.board.getIs_X_win()) {
                 setTitleMessage("You win!!!");
+                Game.draw_line_sound.play();
                 break;
             }
 
             if (game.board.somebodyWin() && game.board.getIs_O_win()) {
-                setTitleMessage("You wOn!!!");
+                setTitleMessage("You lose!!!");
+                Game.draw_line_sound.play();
                 break;
 
             }
@@ -362,11 +369,13 @@ public class GameWindow extends JFrame {
 
             if (game.board.somebodyWin() && game.board.getIs_X_win()) {
                 setTitleMessage("You win!!!");
+                Game.draw_line_sound.play();
                 break;
             }
 
             if (game.board.somebodyWin() && game.board.getIs_O_win()) {
                 setTitleMessage("You wOn!!!");
+                Game.draw_line_sound.play();
                 break;
 
             }

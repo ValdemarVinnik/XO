@@ -687,6 +687,7 @@ public class Board {
         if (field[j][i].equals("+") && !full_Line) {
             field[j][i] = "X";
             is_step_possible = true;
+            Game.roscherk_sound.play();
             return true;
         }
         return false;
@@ -696,6 +697,7 @@ public class Board {
         if (field[j][i].equals("+") && !full_Line && is_step_possible) {
             field[j][i] = "O";
             is_step_possible = false;
+            Game.roscherk_sound.play();
             return true;
         }
         return false;
