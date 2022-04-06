@@ -7,9 +7,9 @@ public class Game {
     public Coin coin;
     public boolean isEnd = false;
 
-    public static final Sound coin_sound = new Sound (new File("src/main/resources/coin.wav"));
-    public static final Sound draw_line_sound = new Sound (new File("src/main/resources/drawLine.wav"));
-    public static final Sound roscherk_sound = new Sound (new File("src/main/resources/roscherk.wav"));
+    public  final Sound coin_sound = new Sound (getClass().getResource("coin.wav"));
+    public  final Sound draw_line_sound = new Sound (getClass().getResource("drawLine.wav"));
+    public  final Sound roscherk_sound = new Sound (getClass().getResource("roscherk.wav"));
 
     public static Game getInstance() {
         return game == null ? game = new Game() : game;
@@ -20,7 +20,7 @@ public class Game {
         return !this.board.isFull_Line();
     }
 
-    private Game() {
+    Game() {
         this.board = new Board();
     }
 

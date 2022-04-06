@@ -245,7 +245,7 @@ public class GameWindow extends JFrame {
 
         if (game.status == Status.BEGIN) {
             game_window.defineQueue(g);
-        } else if (game.status == Status.DEFINE_A_QUEUE && !Game.coin_sound.isPlaying()) {
+        } else if (game.status == Status.DEFINE_A_QUEUE && !game.coin_sound.isPlaying()) {
 
             game_window.printCoin(g);
         } else if (game.status != Status.DEFINE_A_QUEUE) {
@@ -341,13 +341,13 @@ public class GameWindow extends JFrame {
 
             if (game.board.somebodyWin() && game.board.getIs_X_win()) {
                 setTitleMessage("You win!!!");
-                Game.draw_line_sound.play();
+                game.draw_line_sound.play();
                 break;
             }
 
             if (game.board.somebodyWin() && game.board.getIs_O_win()) {
                 setTitleMessage("You lose!!!");
-                Game.draw_line_sound.play();
+                game.draw_line_sound.play();
                 break;
 
             }
@@ -369,13 +369,13 @@ public class GameWindow extends JFrame {
 
             if (game.board.somebodyWin() && game.board.getIs_X_win()) {
                 setTitleMessage("You win!!!");
-                Game.draw_line_sound.play();
+                game.draw_line_sound.play();
                 break;
             }
 
             if (game.board.somebodyWin() && game.board.getIs_O_win()) {
                 setTitleMessage("You wOn!!!");
-                Game.draw_line_sound.play();
+                game.draw_line_sound.play();
                 break;
 
             }

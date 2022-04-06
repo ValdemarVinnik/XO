@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -17,9 +18,9 @@ public class Sound implements AutoCloseable {
     private FloatControl volumeControl = null;
     private boolean playing = false;
 
-    public Sound(File f) {
+    public Sound(URL url) {
         try {
-            stream = AudioSystem.getAudioInputStream(f);
+            stream = AudioSystem.getAudioInputStream(url);
             clip = AudioSystem.getClip();
             clip.open(stream);
             clip.addLineListener(new Listener());
@@ -120,12 +121,12 @@ public class Sound implements AutoCloseable {
     }
 
     // Статический метод, для удобства
-    public static Sound playSound(String path) {
-        File f = new File(path);
-        Sound snd = new Sound(f);
-        snd.play();
-        return snd;
-    }
+//    public static Sound playSound(String path) {
+//        File f = new File(path);
+//        Sound snd = new Sound(f);
+//        snd.play();
+//        return snd;
+//    }
 
     private class Listener implements LineListener {
         public void update(LineEvent ev) {
