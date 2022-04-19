@@ -89,7 +89,14 @@ public class Board {
             setO(2, 0);
         else if (field[0][2].equals("+"))
             setO(0, 2);
-
+          else if (field[1][2].equals("+"))
+            setO(1, 2);
+        else if (field[2][1].equals("+"))
+            setO(2, 1);
+        else if (field[1][0].equals("+"))
+            setO(1, 0);
+        else if (field[0][1].equals("+"))
+            setO(0, 1);
     }
 
     protected boolean firstAttackWay() {
