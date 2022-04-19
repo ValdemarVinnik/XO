@@ -1,4 +1,4 @@
-import java.io.File;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -10,6 +10,10 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+/***
+ * Класс был позаимствован из просторов интернета
+ */
 
 public class Sound implements AutoCloseable {
     private boolean released = false;
@@ -119,14 +123,6 @@ public class Sound implements AutoCloseable {
             } catch (InterruptedException exc) {}
         }
     }
-
-    // Статический метод, для удобства
-//    public static Sound playSound(String path) {
-//        File f = new File(path);
-//        Sound snd = new Sound(f);
-//        snd.play();
-//        return snd;
-//    }
 
     private class Listener implements LineListener {
         public void update(LineEvent ev) {

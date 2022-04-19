@@ -320,7 +320,7 @@ public class GameWindow extends JFrame {
     public void run() {
 
         while (!game.isEnd) {
-            System.out.checkError();// без взбадривания System.out - не видит статуса.
+            System.out.checkError(); // без взбадривания System.out - не видит статуса. Если закоментировать не работает.
 
             if (game.status == Status.PROTECTION) {
                 protectedRun();
